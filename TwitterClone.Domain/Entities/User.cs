@@ -6,10 +6,13 @@ namespace TwitterClone.Domain.Entities
         private string _username;
         private string _email;
 
-        public User()
+        public User(string username, string email)
         {
             _id = Guid.NewGuid();
+            _username = username;
+            _email = email;
         }
+        
         public Guid Id
         {
             get { return _id; }
