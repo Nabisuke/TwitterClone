@@ -1,28 +1,22 @@
 
 namespace TwitterClone.Domain.Entities
 {
-    public class CommentNotification : Notification
+    public sealed class CommentNotification : Notification
     {
-        private Guid _commentId;
-        private Guid _tweetId;
+        private Guid _commentId { get; set;}
+        private Guid _tweetId { get; set;}
 
         public CommentNotification(Guid commentId, Guid tweetId) : base("Comment")
         {
             _commentId = commentId;
             _tweetId = tweetId;
         }
-
-        public Guid CommentId
+        public override string DescribeRecord()
         {
-            get { return _commentId; }
-            set { _commentId = value; }
+            var baseRecord = base.DescribeRecord();
+            return $"{baseRecord}, CommentId: {_commentId}, TweetId: {_tweetId}";
         }
 
-        public Guid TweetId
-        {
-            get { return _tweetId; }
-            set { _tweetId = value; }
-        }
     }
     
 }

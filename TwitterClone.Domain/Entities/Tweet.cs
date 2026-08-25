@@ -1,19 +1,21 @@
 namespace TwitterClone.Domain.Entities
 {
-    public class Tweet
+    public class Tweet : BaseEntity
     {
-        private Guid _id;
         public string Author { get; }
         public string Content { get; private set; }
 
-        public Tweet(string author, string content)
+        public Tweet(string author, string content) : base(Guid.NewGuid())
         {
-            _id = Guid.NewGuid();
+            if (string.IsNullOrWhiteSpace(author))
+            {
+                throw new ArgumentException("Author cannot be empty or whitespace.", nameof(author));
+            }
             Author = author;
-            Content = content;
+            SetContent(content, Guid.Empty);
         }
 
-        public void SetContent(string content)
+        public void SetContent(string content, Guid updatedByUserId)
         {
             if (string.IsNullOrWhiteSpace(content))
             {
@@ -24,9 +26,9 @@ namespace TwitterClone.Domain.Entities
                 throw new ArgumentException("Content cannot exceed 280 characters.", nameof(content));
             }
             Content = content;
+            UpdatedAt = DateTime.UtcNow;
+            UpdatedBy = updatedByUserId;
         }
-
-
 
     }
 }

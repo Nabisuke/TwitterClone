@@ -14,16 +14,16 @@ namespace TwitterClone.Domain.Entities
             _message = string.Empty;
         }
 
-        public Guid UserId
+        public string Message
         {
-            get { return _userId; }
-            set { _userId = value; }
-        }
-
-        public string Type
-        {
-            get { return _type; }
-            set { _type = value; }
+            get { return _message; }
+            protected set 
+            { 
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Notification message cannot be empty.");
+                    
+                _message = value; 
+            }
         }
 
         public bool IsRead
@@ -32,10 +32,12 @@ namespace TwitterClone.Domain.Entities
             set { _isRead = value; }
         }
 
-        public string Message
+        public override string DescribeRecord()
         {
-            get { return _message; }
-            set { _message = value; }
+            var baseRecord = base.DescribeRecord();
+            return $"{baseRecord}, UserId: {_userId}, Type: {_type}, IsRead: {_isRead}, Message: {_message}";
         }
+
+
     }
 }

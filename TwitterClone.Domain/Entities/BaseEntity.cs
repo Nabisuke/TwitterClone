@@ -4,9 +4,9 @@ namespace TwitterClone.Domain.Entities
     {
         public Guid Id { get; private set; }
         public DateTime CreatedAt { get; private set; }
-        public DateTime? UpdatedAt { get; private set; }
+        public DateTime? UpdatedAt { get; protected set; }
         public Guid CreatedBy { get; private set; }
-        public Guid? UpdatedBy { get; private set; }
+        public Guid? UpdatedBy { get; protected set; }
 
         public BaseEntity(Guid id, Guid? createdBy = null)
         {
