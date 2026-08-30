@@ -3,7 +3,7 @@ namespace TwitterClone.Domain.Entities
     public class Tweet : BaseEntity
     {
         public string Author { get; }
-        public string Content { get; private set; }
+        public string Content { get; private set; } = string.Empty;
 
         public Tweet(string author, string content) : base(Guid.NewGuid())
         {
