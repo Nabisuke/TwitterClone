@@ -1,9 +1,10 @@
 namespace TwitterClone.Domain.Entities
 {
-    public class Tweet : BaseEntity
+    public class Tweet : BaseEntity, ILikeable
     {
         public string Author { get; }
         public string Content { get; private set; } = string.Empty;
+        public static int MaxContentLength => 200;
 
         public Tweet(string author, string content) : base(Guid.NewGuid())
         {
@@ -21,13 +22,22 @@ namespace TwitterClone.Domain.Entities
             {
                 throw new ArgumentException("Content cannot be empty or whitespace.", nameof(content));
             }
-            if (content.Length > 280)
+            if (content.Length > MaxContentLength)
             {
-                throw new ArgumentException("Content cannot exceed 280 characters.", nameof(content));
+                throw new ArgumentException($"Content cannot exceed {MaxContentLength} characters.", nameof(content));
             }
             Content = content;
             UpdatedAt = DateTime.UtcNow;
             UpdatedBy = updatedByUserId;
+        }
+
+        public bool CanBeLiked()
+        {
+            if (string.IsNullOrWhiteSpace(Content))
+            {
+                return false;
+            }
+            return true;
         }
 
     }
