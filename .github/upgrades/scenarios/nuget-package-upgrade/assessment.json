@@ -1,0 +1,182 @@
+{
+  "settings": {
+    "components": {
+      "code": true,
+      "binaries": false
+    },
+    "targetId": ""
+  },
+  "analysisStartTime": "2026-10-22T04:07:12.3904144Z",
+  "analysisEndTime": "2026-10-22T04:07:12.395823Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 3,
+      "issues": 1,
+      "incidents": 2,
+      "effort": 0
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 0,
+        "Optional": 0,
+        "Potential": 0,
+        "Information": 2
+      },
+      "category": {
+        "Pkg": 2
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "TwitterClone.Api\\TwitterClone.Api.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 0,
+      "properties": {
+        "appName": "TwitterClone.Api",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 5,
+        "numberOfCodeFiles": 3,
+        "linesTotal": 153,
+        "linesOfCode": 129,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "42b48c00-5f8a-486f-a7e4-5ad66176edc5",
+          "ruleId": "Pkg.0001",
+          "description": "Project references \u0027Microsoft.AspNetCore.OpenApi\u0027 10.0.13 (included in this upgrade).",
+          "projectPath": "TwitterClone.Api\\TwitterClone.Api.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.OpenApi, 10.0.13",
+              "protected": "Microsoft.AspNetCore.OpenApi, 10.0.13"
+            },
+            "kind": "File",
+            "path": "TwitterClone.Api\\TwitterClone.Api.csproj",
+            "snippet": "Microsoft.AspNetCore.OpenApi, 10.0.13",
+            "protectedSnippet": "Microsoft.AspNetCore.OpenApi, 10.0.13",
+            "label": "Microsoft.AspNetCore.OpenApi 10.0.13",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.OpenApi",
+              "PackageVersion": "10.0.13",
+              "PackageNewVersion": "10.0.13",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "be37e4e7-ee1c-4ee8-af17-0da7fe42a6ea",
+          "ruleId": "Pkg.0001",
+          "description": "Project references \u0027Microsoft.VisualStudio.Web.CodeGeneration.Design\u0027 10.0.2 (included in this upgrade).",
+          "projectPath": "TwitterClone.Api\\TwitterClone.Api.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 10.0.2",
+              "protected": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 10.0.2"
+            },
+            "kind": "File",
+            "path": "TwitterClone.Api\\TwitterClone.Api.csproj",
+            "snippet": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 10.0.2",
+            "protectedSnippet": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 10.0.2",
+            "label": "Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2",
+            "properties": {
+              "PackageId": "Microsoft.VisualStudio.Web.CodeGeneration.Design",
+              "PackageVersion": "10.0.2",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "TwitterClone.Domain\\TwitterClone.Domain.csproj",
+      "startingProject": true,
+      "issues": 0,
+      "storyPoints": 0,
+      "properties": {
+        "appName": "TwitterClone.Domain",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 17,
+        "numberOfCodeFiles": 17,
+        "linesTotal": 410,
+        "linesOfCode": 410,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [],
+      "features": []
+    },
+    {
+      "path": "TwitterClone.Test\\TwitterClone.Test.csproj",
+      "startingProject": true,
+      "issues": 0,
+      "storyPoints": 0,
+      "properties": {
+        "appName": "TwitterClone.Test",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "isTestProject": false,
+        "numberOfFiles": 1,
+        "numberOfCodeFiles": 1,
+        "linesTotal": 15,
+        "linesOfCode": 15,
+        "totalApiScanned": 0,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [],
+      "features": []
+    }
+  ],
+  "rules": {
+    "Pkg.0001": {
+      "id": "Pkg.0001",
+      "isFeature": false,
+      "description": "Project references a package included in this upgrade.\n\nThe project references one of the packages being upgraded. This finding records the reference (current and proposed version) so the assessment lists every affected project even when no breaking API changes were detected.",
+      "label": "Project references an upgraded package",
+      "severity": "Information",
+      "effort": 0
+    }
+  }
+}
