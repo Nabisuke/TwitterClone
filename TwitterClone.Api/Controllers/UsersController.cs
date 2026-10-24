@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,6 @@ namespace TwitterClone.Api.Controllers
         [HttpGet]
         public IActionResult getUsers()
         {
-            // Implementation for getting users
             var user = new List<object>
             {
                 new
@@ -49,6 +49,42 @@ namespace TwitterClone.Api.Controllers
 
 
         }
-    }
 
+
+        [HttpGet("{id}")]
+        public IActionResult GetUserById([FromRoute] Guid id)
+        {
+            return Ok(
+                new
+                {
+                    UserId = id,
+                    firstName = "nabil",
+                    lastName = "safowan",
+                    email = "nabilsafowan@gmail.com"
+
+                }
+            );
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult CreateUser()
+        {
+            return Ok("User Created");
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUser([FromRoute] Guid id)
+        {
+            return Ok($"{id} Deleted");
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser([FromRoute] Guid id)
+        {
+            return Ok($"{id} Updated");
+        }
+
+    }
 }
