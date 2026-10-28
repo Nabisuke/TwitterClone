@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TwitterClone.Api.Controllers
@@ -15,7 +14,7 @@ namespace TwitterClone.Api.Controllers
             return Ok("Success");
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("user/{id}")]
         public IActionResult GetBookmarkByUserId([FromRoute] Guid id)
         {
             return Ok($"Bookmark for user {id} retrieved successfully");
@@ -34,7 +33,7 @@ namespace TwitterClone.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateBookmark(Guid id)
+        public IActionResult CreateBookmark([FromBody] Guid id)
         {
             return Ok($"Bookmark for user {id} created successfully");
         }

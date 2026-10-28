@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TwitterClone.Api.Controllers
@@ -14,26 +13,31 @@ namespace TwitterClone.Api.Controllers
         {
             return Ok("Success");
         }
-        [HttpGet("{id}")]
+
+        [HttpGet("user/{id}")]
         public IActionResult GetNotificationByUserId([FromRoute] Guid id)
         {
             return Ok($"Notification for user {id} retrieved successfully");
         }
+
         [HttpGet("{id}")]
         public IActionResult GetNotificationById([FromRoute] Guid id)
         {
             return Ok($"Notification with ID {id} retrieved successfully");
         }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteNotification([FromRoute] Guid id)
         {
             return Ok($"Notification with ID {id} deleted successfully");
         }
+
         [HttpPost]
         public IActionResult CreateNotification()
         {
-            return Ok($"Notification for user created successfully");
+            return Ok("Notification for user created successfully");
         }
+
         [HttpPut("{id}/notifications")]
         public IActionResult UpdateNotification([FromRoute] Guid id, [FromBody] string notification)
         {

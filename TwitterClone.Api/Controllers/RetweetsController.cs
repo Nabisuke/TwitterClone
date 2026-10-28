@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TwitterClone.Api.Controllers
@@ -15,7 +14,7 @@ namespace TwitterClone.Api.Controllers
             return Ok("Success");
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("user/{id}")]
         public IActionResult GetRetweetByUserId([FromRoute] Guid id)
         {
             return Ok($"Retweet for user {id} retrieved successfully");
@@ -36,11 +35,11 @@ namespace TwitterClone.Api.Controllers
         [HttpPost]
         public IActionResult CreateRetweet()
         {
-            return Ok($"Retweet for user created successfully");
+            return Ok("Retweet for user created successfully");
         }
 
         [HttpPut("{id}/content")]
-        public IActionResult UpdateRetweet([FromRoute] Guid id, string content)
+        public IActionResult UpdateRetweet([FromRoute] Guid id, [FromBody] string content)
         {
             return Ok($"Retweet with ID {id} updated successfully");
         }

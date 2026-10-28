@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TwitterClone.Api.Controllers
@@ -15,7 +14,7 @@ namespace TwitterClone.Api.Controllers
             return Ok("Success");
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("user/{id}")]
         public IActionResult GetMessageByUserId([FromRoute] Guid id)
         {
             return Ok($"Message for user {id} retrieved successfully");
@@ -32,19 +31,17 @@ namespace TwitterClone.Api.Controllers
         {
             return Ok($"Message with ID {id} deleted successfully");
         }
-        
+
         [HttpPost]
         public IActionResult CreateMessage()
         {
-            return Ok($"Message for user created successfully");
+            return Ok("Message for user created successfully");
         }
 
         [HttpPut("{id}/content")]
-        public IActionResult UpdateMessage([FromRoute] Guid id, string content)
+        public IActionResult UpdateMessage([FromRoute] Guid id, [FromBody] string content)
         {
             return Ok($"Message with ID {id} updated successfully");
         }
-
-
     }
 }

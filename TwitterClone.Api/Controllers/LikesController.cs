@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TwitterClone.Api.Controllers
@@ -15,7 +14,7 @@ namespace TwitterClone.Api.Controllers
             return Ok("Success");
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("user/{id}")]
         public IActionResult GetLikeByUserId([FromRoute] Guid id)
         {
             return Ok($"Like for user {id} retrieved successfully");
@@ -36,10 +35,7 @@ namespace TwitterClone.Api.Controllers
         [HttpPost]
         public IActionResult CreateLike()
         {
-            return Ok($"Like for user created successfully");
+            return Ok("Like for user created successfully");
         }
-
-
-
     }
 }
