@@ -43,5 +43,5 @@ namespace TwitterClone.Api.Controllers
         {
             return Ok($"Bookmark with ID {id} updated successfully");
         }
-    }
+    }`
 }

@@ -1,11 +1,20 @@
-using TwitterClone.Api.Data;
+using TwitterClone.Application.Interfaces;
+using TwitterClone.Application.Services;
 using TwitterClone.Domain.Entities;
+using TwitterClone.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-builder.Services.AddSingleton<UserRepository>();
+
+builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<ITweetRepository, TweetRepository>();
+builder.Services.AddScoped<ITweetService>(serviceProvider =>
+    new TweetService(
+        serviceProvider.GetRequiredService<ITweetRepository>(),
+        builder.Configuration.GetValue<int>("TwitterSettings:MaxTweetLength")));
 
 var app = builder.Build();
 

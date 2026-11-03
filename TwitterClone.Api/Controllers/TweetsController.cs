@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TwitterClone.Application.Dtos.TweetsDto;
+using TwitterClone.Application.Interfaces;
 
 namespace TwitterClone.Api.Controllers
 {
@@ -9,77 +10,76 @@ namespace TwitterClone.Api.Controllers
     [Authorize]
     public class TweetsController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly 
+        private readonly ITweetService _tweetService;
 
-        public TweetsController(IConfiguration configuration)
+        public TweetsController(ITweetService tweetService)
         {
-            _configuration = configuration;
+            _tweetService = tweetService;
         }
 
         [HttpGet]
-        public IActionResult getTweets()
+        public IActionResult GetTweets()
         {
-            var maxlength = _configuration.GetValue<int>("TwitterSettings:MaxTweetLength");
-            var appname = _configuration.GetValue<string>("TwitterSettings:AppName");
-            // Implementation for getting tweets
-            var tweets = new List<Object>
-            {
-                new
-                {
-                    UserId = Guid.NewGuid(),
-                    Content = "This is a sample tweet",
-                    MaxLength = maxlength,
-                    AppName = appname,
-                },
-
-                new
-                {
-                    UserId = Guid.NewGuid(),
-                    Content = "This is another sample tweet",
-                    MaxLength = maxlength,
-                    AppName = appname,
-                },
-            };
-
-            return Ok(tweets);
-
-
+            return Ok(_tweetService.GetTweets());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetTweetByUserId([FromRoute] Guid id)
+        public IActionResult GetTweetById([FromRoute] Guid id)
         {
-            return Ok(
-                new
-                {
-                    UserId = id,
-                    Content = "This is a sample tweet",
-                    MaxLength = _configuration.GetValue<int>("TwitterSettings:MaxTweetLength"),
-                    AppName = _configuration.GetValue<string>("TwitterSettings:AppName"),
-                }
-            );
+            var tweet = _tweetService.GetTweetById(id);
+
+            if (tweet == null)
+            {
+                return NotFound($"Tweet with ID {id} not found.");
+            }
+
+            return Ok(tweet);
         }
 
         [HttpPost]
-        public IActionResult CreateTweet()
+        public IActionResult CreateTweet([FromBody] CreateTweetDto createTweetDto)
         {
-            return Ok("Tweet created successfully");
+            var createdTweet = _tweetService.CreateTweet(createTweetDto);
+
+            if (createdTweet == null)
+            {
+                return BadRequest("Tweet content is required and cannot exceed the maximum length.");
+            }
+
+            return Ok(createdTweet);
         }
 
         [HttpPut("{id}/content")]
-        public IActionResult UpdateTweet([FromRoute] Guid id, [FromBody] string content)
+        public IActionResult UpdateTweet(
+            [FromRoute] Guid id,
+            [FromBody] UpdateTweetDto updateTweetDto)
         {
-            return Ok("Tweet updated successfully");
+            var existingTweet = _tweetService.GetTweetById(id);
+
+            if (existingTweet == null)
+            {
+                return NotFound($"Tweet with ID {id} not found.");
+            }
+
+            var updatedTweet = _tweetService.UpdateTweet(id, updateTweetDto);
+
+            if (updatedTweet == null)
+            {
+                return BadRequest("Tweet content is required and cannot exceed the maximum length.");
+            }
+
+            return Ok(updatedTweet);
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteTweet([FromRoute] Guid id)
         {
-            return Ok("Tweet deleted successfully");
+            if (!_tweetService.DeleteTweet(id))
+            {
+                return NotFound($"Tweet with ID {id} not found.");
+            }
+
+            return Ok($"Tweet with ID {id} deleted.");
         }
-
-
     }
-
 }
