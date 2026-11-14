@@ -8,11 +8,21 @@ namespace TwitterClone.Domain.Entities
         private List<Guid> _inComingNotifications = new List<Guid>();
         private List<Guid> _followers = new List<Guid>();
 
+        public string FirstName => _firstName;
+        public string LastName => _lastName;
+        public string Email => _email;
+
         public User(string firstName, string lastName, string email) : base(Guid.NewGuid())
         {
             _firstName = firstName;
             _lastName = lastName;
             _email = email;
+        }
+
+        public void Update(string firstName, string lastName)
+        {
+            _firstName = firstName;
+            _lastName = lastName;
         }
         
         public void Follow(Guid userId)

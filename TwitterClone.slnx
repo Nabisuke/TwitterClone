@@ -1,5 +1,7 @@
 <Solution>
   <Project Path="TwitterClone.Api/TwitterClone.Api.csproj" Id="efe917a0-698e-4aa7-b142-70a824fb6646" />
+  <Project Path="TwitterClone.Application/TwitterClone.Application.csproj" Id="84ab97fb-5b9f-4015-96dc-9c907f8193b6" />
   <Project Path="TwitterClone.Domain/TwitterClone.Domain.csproj" />
+  <Project Path="TwitterClone.Infrastructure/TwitterClone.Infrastructure.csproj" Id="e69b3300-a396-4c2f-874a-60c9862503d0" />
   <Project Path="TwitterClone.Test/TwitterClone.Test.csproj" />
 </Solution>

@@ -1,48 +1,85 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TwitterClone.Application.Dtos.TweetsDto;
+using TwitterClone.Application.Interfaces;
 
 namespace TwitterClone.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TweetsController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        private readonly ITweetService _tweetService;
 
-        public TweetsController(IConfiguration configuration)
+        public TweetsController(ITweetService tweetService)
         {
-            _configuration = configuration;
+            _tweetService = tweetService;
         }
 
         [HttpGet]
-        public IActionResult getTweets()
+        public IActionResult GetTweets()
         {
-            var maxlength = _configuration.GetValue<int>("TwitterSettings:MaxTweetLength");
-            var appname = _configuration.GetValue<string>("TwitterSettings:AppName");
-            // Implementation for getting tweets
-            var tweets = new List<Object>
+            return Ok(_tweetService.GetTweets());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetTweetById([FromRoute] Guid id)
+        {
+            var tweet = _tweetService.GetTweetById(id);
+
+            if (tweet == null)
             {
-                new
-                {
-                    UserId = Guid.NewGuid(),
-                    Content = "This is a sample tweet",
-                    MaxLength = maxlength,
-                    AppName = appname,
-                },
+                return NotFound($"Tweet with ID {id} not found.");
+            }
 
-                new
-                {
-                    UserId = Guid.NewGuid(),
-                    Content = "This is another sample tweet",
-                    MaxLength = maxlength,
-                    AppName = appname,
-                },
-            };
+            return Ok(tweet);
+        }
 
-            return Ok(tweets);
+        [HttpPost]
+        public IActionResult CreateTweet([FromBody] CreateTweetDto createTweetDto)
+        {
+            var createdTweet = _tweetService.CreateTweet(createTweetDto);
 
+            if (createdTweet == null)
+            {
+                return BadRequest("Tweet content is required and cannot exceed the maximum length.");
+            }
 
+            return Ok(createdTweet);
+        }
+
+        [HttpPut("{id}/content")]
+        public IActionResult UpdateTweet(
+            [FromRoute] Guid id,
+            [FromBody] UpdateTweetDto updateTweetDto)
+        {
+            var existingTweet = _tweetService.GetTweetById(id);
+
+            if (existingTweet == null)
+            {
+                return NotFound($"Tweet with ID {id} not found.");
+            }
+
+            var updatedTweet = _tweetService.UpdateTweet(id, updateTweetDto);
+
+            if (updatedTweet == null)
+            {
+                return BadRequest("Tweet content is required and cannot exceed the maximum length.");
+            }
+
+            return Ok(updatedTweet);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTweet([FromRoute] Guid id)
+        {
+            if (!_tweetService.DeleteTweet(id))
+            {
+                return NotFound($"Tweet with ID {id} not found.");
+            }
+
+            return Ok($"Tweet with ID {id} deleted.");
         }
     }
-
 }

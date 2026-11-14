@@ -2,33 +2,50 @@ namespace TwitterClone.Domain.Entities
 {
     public class Tweet : BaseEntity, ILikeable
     {
-        public string Author { get; }
-        public string Content { get; private set; } = string.Empty;
-        public static int MaxContentLength => 200;
+        private Guid _userId;
+        private string _content;
 
-        public Tweet(string author, string content) : base(Guid.NewGuid())
+        public static int MaxContentLength = 200;
+
+
+        public Tweet(string content) : base(Guid.NewGuid())
         {
-            if (string.IsNullOrWhiteSpace(author))
-            {
-                throw new ArgumentException("Author cannot be empty or whitespace.", nameof(author));
-            }
-            Author = author;
-            SetContent(content, Guid.Empty);
+            _content = content;
         }
 
-        public void SetContent(string content, Guid updatedByUserId)
+        public Tweet(Guid userId, string content) : base(Guid.NewGuid())
         {
-            if (string.IsNullOrWhiteSpace(content))
-            {
-                throw new ArgumentException("Content cannot be empty or whitespace.", nameof(content));
-            }
-            if (content.Length > MaxContentLength)
-            {
-                throw new ArgumentException($"Content cannot exceed {MaxContentLength} characters.", nameof(content));
-            }
-            Content = content;
-            UpdatedAt = DateTime.UtcNow;
-            UpdatedBy = updatedByUserId;
+            _userId = userId;
+            _content = content;
+        }
+
+        public Guid UserId
+        {
+            get { return _userId; }
+            set { _userId = value; }
+        }
+
+        public string Content
+        {
+            get { return _content; }
+            set { _content = value; }
+        }
+
+        public void AddContent(string content)
+        {
+            _content = content;
+        }
+
+        public void AddContent(Guid userId, string content)
+        {
+            _userId = userId;
+            _content = content;
+        }
+
+        public override string DescribeRecord()
+        {
+            var baseRecord = base.DescribeRecord();
+            return $"{baseRecord}, UserId: {UserId}, Content: {Content}";
         }
 
         public bool CanBeLiked()
@@ -39,6 +56,5 @@ namespace TwitterClone.Domain.Entities
             }
             return true;
         }
-
     }
 }
